@@ -1,0 +1,65 @@
+		<?php
+		$link_buttons = array(
+			array('name'=>$this->_("CssJavascriptToolboxPlugin.index.add_css", true),	'attributes'=>array('href'=>$this->Html->safe($this->base_uri . "settings/company/plugins/manage/" . $this->Html->_($plugin_id, true) ."/?action=addcss"),	'class'=>"add_download")),
+			array('name'=>$this->_("CssJavascriptToolboxPlugin.index.add_js", true),	'attributes'=>array('href'=>$this->Html->safe($this->base_uri . "settings/company/plugins/manage/" . $this->Html->_($plugin_id, true) ."/?action=addjs"),	'class'=>"add_download")),
+			array('name'=>$this->_("CssJavascriptToolboxPlugin.index.add_html", true),	'attributes'=>array('href'=>$this->Html->safe($this->base_uri . "settings/company/plugins/manage/" . $this->Html->_($plugin_id, true) ."/?action=addhtml"),	'class'=>"add_download")),
+			array('name'=>$this->_("CssJavascriptToolboxPlugin.index.add_php", true),	'attributes'=>array('href'=>$this->Html->safe($this->base_uri . "settings/company/plugins/manage/" . $this->Html->_($plugin_id, true) ."/?action=addphp"),	'class'=>"add_download"))
+		);
+		
+		$this->Widget->clear();
+		$this->Widget->setStyleSheet($this->view_dir . "css/styles.css");		
+		$this->Widget->setLinkButtons($link_buttons);		
+		$this->Widget->create($this->_("CssJavascriptToolboxPlugin.admin_main", true));
+		
+		if (!empty($files)) {
+		?>	
+			<table class="table" id="CssJavascriptToolbox" >
+				<tr class="heading_row">
+					<td><span><?php $this->_("CssJavascriptToolboxPlugin.index.heading.ext");?></span></td>
+					<td><span><?php $this->_("CssJavascriptToolboxPlugin.index.heading.section");?></span></td>
+					<td><span><?php $this->_("CssJavascriptToolboxPlugin.index.heading.name");?></span></td>
+					<td><span><?php $this->_("CssJavascriptToolboxPlugin.index.heading.date_added");?></span></td>
+					<td class="last"><span><?php $this->_("CssJavascriptToolboxPlugin.index.heading.options");?></span></td>
+				</tr>
+				<?php
+				$i = 0 ;
+				foreach ($this->Html->ifSet($files) as $file) {
+				?>
+				<tr class="<?php echo ($i%2 == 1) ? "odd_row" : "";?>">
+					<td><img src="<?php echo $this->view_dir . "images/". $file['ext']. ".png" ;?>" /></td>
+					<td><?php echo $this->_("CssJavascriptToolboxPlugin.index.heading.tag" , true , $this->Html->_($file['section'], true));?></td>
+					<td><?php echo $this->Html->_($file['name'], true);?></td>					
+					<td><?php echo $this->Date->cast($this->Html->_($file['last_update'], true), "date_time");?></td>
+					<td class="last">
+						<a href="<?php echo $this->Html->safe($this->base_uri . "settings/company/plugins/manage/" . $this->Html->ifSet($plugin_id) . "/" . $this->Html->ifSet($file['name']) . "/?action=edit");?>"><?php $this->_("CssJavascriptToolboxPlugin.index.heading.edit");?></a>,
+						<?php
+						$this->Form->create($this->base_uri . "settings/company/plugins/manage/" . $this->Html->ifSet($plugin_id) . "/?action=delete");
+						$this->Form->fieldHidden("file", $this->Html->_($file['name'], true));
+						?>
+						<a href="<?php echo $this->Html->safe($this->base_uri . "settings/company/plugins/manage/" . $this->Html->ifSet($plugin_id) . "/?action=delete");?>" class="manage" rel="<?php echo $this->Html->safe($this->_("CssJavascriptToolboxPlugin.index.heading.modal", true , $this->Html->_($file['name'], true) ));?>"><?php $this->_("CssJavascriptToolboxPlugin.index.heading.delete");?></a>
+						<?php
+						$this->Form->end();
+						?>
+					</td>
+				</tr>				
+				<?php
+				$i++;
+				}
+				?>
+			</table>
+			<?php
+		}
+		else {
+		?>		
+		<div class="empty_section">
+			<div class="empty_box"><?php $this->_("CssJavascriptToolboxPlugin.desc");?></div>
+		</div>
+		<?php
+		}
+		$this->Widget->end();
+		?>
+<script type="text/javascript">
+	$(document).ready(function() {
+		$('#CssJavascriptToolbox a.manage[rel]').blestaModalConfirm({base_url: '<?php echo $this->Html->safe($this->base_uri);?>', close: '<?php $this->_("AppController.modal.text_close");?>', submit: true});
+	});
+</script>		

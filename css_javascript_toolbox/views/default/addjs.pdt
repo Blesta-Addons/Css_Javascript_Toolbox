@@ -1,0 +1,81 @@
+
+		<?php
+		echo $this->Html->ifSet($message);
+			
+		$this->Widget->clear();
+		$this->Widget->create($this->_("CssJavascriptToolboxPlugin.add_js.boxtitle", true));
+		$this->Form->create(null, array('id' => "add_js", 'enctype' => "multipart/form-data"));
+		?>
+		<div class="inner">
+			<div class="pad">
+				<ul>
+					<li>
+						<?php
+						$this->Form->fieldRadio("type", "basic", ($this->Html->ifSet($vars->type, "basic") == "basic"), array('id' => "basic", 'class' => "type"));
+						$this->Form->label($this->_("CssJavascriptToolboxPlugin.add_js.field_basic", true), "basic", array('class' => "inline"));
+						$this->Form->fieldRadio("type", "advanced", ($this->Html->ifSet($vars->type) == "advanced"), array('id' => "advanced", 'class' => "type"));
+						$this->Form->label($this->_("CssJavascriptToolboxPlugin.add_js.field_advanced", true), "advanced", array('class' => "inline"));
+						?>
+					</li>				
+					<li class="basic_view">
+						<?php $this->Form->label($this->_("CssJavascriptToolboxPlugin.add_js.pages", true), "pages");?>
+						<?php $this->Form->fieldSelect("pages", array( ''=>$this->_("CssJavascriptToolboxPlugin.select.please", true)  ) + $this->Html->ifSet($SelectPages) , $this->Html->ifSet($vars->pages), array("id"=>"pages"));?>
+					</li>
+					<li class="advanced_view" style="display:none;">
+						<?php $this->Form->label($this->_("CssJavascriptToolboxPlugin.add_js.controllers", true), "controllers");?>
+						<?php $this->Form->fieldSelect("controllers", array( ''=>$this->_("CssJavascriptToolboxPlugin.select.please", true)  ) + $this->Html->ifSet($SelectPages) + $this->Html->ifSet($ListControllers) , $this->Html->ifSet($vars->controllers), array("id"=>"controllers"));?>
+					</li>					
+					<li>
+						<?php $this->Form->label($this->_("CssJavascriptToolboxPlugin.add_js.section", true), "section");?>
+						<?php $this->Form->fieldSelect("section", array( ''=>$this->_("CssJavascriptToolboxPlugin.select.please", true)  ) + $this->Html->ifSet($SelectSection) , $this->Html->ifSet($vars->section), array("id"=>"section"));?>
+					</li>					
+					<li>
+						<?php $this->Form->label($this->_("CssJavascriptToolboxPlugin.add_js.js", true), "body");?>
+						<?php $this->Form->fieldTextarea("body", $this->Html->ifSet($vars->body), array('id'=>"body", 'class'=>"small"));?>
+					</li>
+
+				</ul>
+			</div>
+			
+			<div class="button_row">
+				<a class="btn_right submit" href="#"><?php $this->_("CssJavascriptToolboxPlugin.add_js.submit_add");?></a>
+				<a class="btn_right" href="<?php echo $this->Html->safe($this->base_uri . "settings/company/plugins/manage/" . $this->Html->ifSet($plugin_id) . "/" . $this->Html->ifSet($category->id));?>"><?php $this->_("CssJavascriptToolboxPlugin.add_js.submit_cancel");?></a>
+			</div>
+		</div>
+		<?php
+		$this->Form->end();
+		$this->Widget->end();
+		?>
+
+<script type="text/javascript">
+$(document).ready(function() {
+	
+	// Show selected fields
+	if ($('#advanced').attr('checked'))
+		showAdvancedFields(true);
+	
+	// Hide/show logged in fields
+	$('.type').change(function() {
+		if ($(this).val() == "advanced")
+			showAdvancedFields(true);
+		else
+			showAdvancedFields(false);
+	});
+
+});
+
+function showAdvancedFields(show) {
+	if (show) {
+		// Show checkboxes
+		$('.advanced_view').show();
+		$('.basic_view').hide();
+	}
+	else {
+		// Hide checkboxes
+		$('.advanced_view').hide();
+		$('.basic_view').show();
+
+	}
+}
+
+</script>		
