@@ -162,7 +162,7 @@ class Toolbox extends CssJavascriptToolboxModel {
 		
 		if ($this->Input->validates($vars)) {
 		
-			if ($vars['type'] == "simple") 
+			if ($vars['type'] == "basic") 
 				$file_name = $vars['section'] .".". $vars['pages'] .".css";
 			else 
 				$file_name = $vars['section'] .".". $vars['controllers'] .".css";
@@ -180,7 +180,7 @@ class Toolbox extends CssJavascriptToolboxModel {
 		
 		if ($this->Input->validates($vars)) {
 		
-			if ($vars['type'] == "simple") 
+			if ($vars['type'] == "basic") 
 				$file_name = $vars['section'] .".". $vars['pages'] .".js";
 			else 
 				$file_name = $vars['section'] .".". $vars['controllers'] .".js";		
@@ -216,8 +216,7 @@ class Toolbox extends CssJavascriptToolboxModel {
 		
 		if ($this->Input->validates($vars)) {
 		
-			// $dir = PLUGINDIR ."css_javascript_toolbox/includes/" . $this->company_id . "/";
-			if ($vars['type'] == "simple") 
+			if ($vars['type'] == "basic") 
 				$file_name = $vars['section'] .".". $vars['pages'] .".php";
 			else 
 				$file_name = $vars['section'] .".". $vars['controllers'] .".php";		
@@ -253,7 +252,7 @@ class Toolbox extends CssJavascriptToolboxModel {
 		$ext  = pathinfo($file_name, PATHINFO_EXTENSION); 
 		// $old_file = $file_name ;
 		
-		if ($vars['type'] == "simple") 
+		if ($vars['type'] == "basic") 
 			$new_file = $vars['section'] .".". $vars['pages'] . "." . $ext;
 		else 
 			$new_file = $vars['section'] .".". $vars['controllers'] ."." . $ext;	
